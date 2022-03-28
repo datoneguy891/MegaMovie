@@ -1,16 +1,44 @@
-def get_snacks():
-    snack_choice_error = "Sorry, that is not a valid choice"
-    valid_snacks = [["Popcorn", "p", "corn", "1"], ["m&ms", "mms", "m", "2"], ["pita chips", "chips", "pc", "pita",
-                    "c", "3"], ["water", "w", "4"]]
-    snack_choice = input("Snack: ").lower()
-    for snack in valid_snacks:
-        if snack_choice in snack:
-            snack_choice = snack[0].title()
-            return snack_choice
+def get_choice(question, valid_choices):
+    choice_error = "Sorry, that is not a valid choice"
+    choice = input(question).lower()
+    for item in valid_choices:
+        if choice in item:
+            choice = item[0].title()
+            return choice
 
-    print(snack_choice_error)
-    return get_snacks()
+    print(choice_error)
+    return get_choice(question, valid_choices)
 
 
-for test in range(6):
-    print(f"You want {get_snacks()}")
+ask_for_snacks = "What snack do you want? (Type 'X' to stop ordering): "
+
+
+valid_snacks = [["Popcorn", "p", "corn", "1"], ["m&ms", "mms", "m", "2"],
+                ["pita chips", "chips", "pc", "pita", "c", "3"],
+                ["water", "w", "4"], ["x", "exit", "5"]]
+
+check_snacks = "Do you want snacks? "
+
+valid_yes_no = [["y", "yes"], ["n", "no"]]
+
+snacks_required = get_choice(check_snacks, valid_yes_no)
+
+snack_order = []
+
+getting_snacks = True
+while getting_snacks:
+    if snacks_required == "N":
+        getting_snacks = False
+    else:
+        option = get_choice(ask_for_snacks, valid_snacks)
+        if option != "X":
+            snack_order.append(option)
+        else:
+            getting_snacks = False
+
+if len(snack_order) > 0:
+    print("\nThis is a summary of your order:")
+    for item in snack_order:
+        print(f"\t{item}")
+else:
+    print("No snacks were ordered")
